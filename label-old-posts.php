@@ -60,6 +60,15 @@ function options_page()
     echo '">';
 
     echo '</form>';
+    echo '<hr>';
+    echo '<h3>How To Use This Plugin</h3>';
+    echo '<p>Insert the following PHP in your theme file that is used for posts.  This may be called content.php</p>';
+    echo "<pre><code>if (function_exists('\\AaronSaray\\LabelOldPosts\\insert_label')) {
+	\AaronSaray\LabelOldPosts\insert_label();
+}</code></pre>";
+    echo '<p>The message will be included in a div with the class of <strong>label-old-posts-label</strong>.  Target it with this CSS selector:</p>';
+    echo '<pre><code>.label-old-posts-label</code></pre>';
+
     echo '</div>';
 }
 
@@ -107,6 +116,14 @@ function plugin_options_validate($input)
     }
 
     return $clean;
+}
+
+/**
+ * This inserts the label
+ */
+function insert_label()
+{
+    echo '<div class="label-old-posts-label">This post is old.</div>';
 }
 
 /** register the installation hook **/
