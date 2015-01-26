@@ -1,7 +1,7 @@
 # Label Old Posts
 ## Wordpress Plugin
 
-This plugin labels old posts on a wordpress plug.  This is useful if you have older posts that you may want to remind the user about information possibly being out of date.
+This plugin labels old posts on a wordpress website.  This is useful if you have older posts that you may want to remind the user about information possibly being out of date.
 
 ## How To Use This Plugin
 
