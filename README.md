@@ -8,9 +8,7 @@ This plugin labels old posts on a wordpress plug.  This is useful if you have ol
 Install the plugin.  Then, insert the following PHP in your theme file that is used for posts. This may be called content.php
 
 ~~~~
-if (function_exists('\AaronSaray\LabelOldPosts\insert_label')) {
-	\AaronSaray\LabelOldPosts\insert_label();
-}
+do_action('label-old-posts');
 ~~~~
 
 The message will be included in a div with the class of *label-old-posts-label*. Target it with this CSS selector:
