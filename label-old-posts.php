@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Label Old Posts
- * Plugin URI: http://github/
+ * Plugin URI: https://github.com/aaronsaray/wordpress-label-old-posts
  * Description: Label Old Posts: Help readers understand that an older post may not still be relevant
  * Version: 1.0
  * Author: Aaron Saray
