@@ -167,3 +167,6 @@ add_action('admin_menu', __NAMESPACE__ . '\\admin_menu');
 
 /** register admin settings function **/
 add_action('admin_init', __NAMESPACE__ . '\\admin_init');
+
+/** register the old label post **/
+add_action('label-old-posts', __NAMESPACE__ . '\\insert_label');
