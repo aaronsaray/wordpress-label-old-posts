@@ -24,7 +24,10 @@ define(__NAMESPACE__ . '\OPTIONS_FIELD', 'label-old-posts-plugin_options');
  */
 function install()
 {
-    \add_option('label-old-posts-plugin_options', array('label-old-posts-plugin_option_date'=>'-2 years'));
+    \add_option('label-old-posts-plugin_options', array(
+        'label-old-posts-plugin_option_date'=>'-2 years',
+        'label-old-posts-plugin_option_message'=>'This is an older post.  Please note that the information may not be accurate anymore.'
+    ));
 }
 
 /**
@@ -80,6 +83,7 @@ function admin_init()
     register_setting(\AaronSaray\LabelOldPosts\OPTIONS_FIELD, 'label-old-posts-plugin_options', __NAMESPACE__ . '\\plugin_options_validate');
     add_settings_section('label-old-posts-plugin_main', 'Date Settings', __NAMESPACE__ . '\\plugin_options_main_section_text', 'label-old-posts');
     add_settings_field('label-old-posts-plugin_option_date', 'Posts older than:', __NAMESPACE__ . '\\plugin_options_date', 'label-old-posts', 'label-old-posts-plugin_main');
+    add_settings_field('label-old-posts-plugin_option_message', 'Old post alert:', __NAMESPACE__ . '\\plugin_options_message', 'label-old-posts', 'label-old-posts-plugin_main');
 }
 
 /**
@@ -87,7 +91,7 @@ function admin_init()
  */
 function plugin_options_main_section_text()
 {
-    echo '<p>Any posts older than the date string below will be labeled as an old post.</p>';
+    echo '<p>Any posts older than the date string below will be labeled as an old post.  Old post label can contain HTML.</p>';
     echo '<p>Please use phrases like <strong>-6 months</strong> or <strong>last year</strong>.  For more options, visit PHP ';
     echo '<a href="http://php.net/strtotime" target="_blank">strtotime</a> manual page.</p>';
 }
@@ -98,8 +102,16 @@ function plugin_options_main_section_text()
 function plugin_options_date()
 {
     $options = get_option('label-old-posts-plugin_options');
-    $pluginDate = isset($options['label-old-posts-plugin_option_date']) ? $options['label-old-posts-plugin_option_date'] : '';
-    echo "<input id='plugin_text_string' name='label-old-posts-plugin_options[label-old-posts-plugin_option_date]' type='text' value='{$pluginDate}' />";
+    echo "<input name='label-old-posts-plugin_options[label-old-posts-plugin_option_date]' type='text' value='{$options['label-old-posts-plugin_option_date']}' />";
+}
+
+/**
+ * Outputs the message for the input box
+ */
+function plugin_options_message()
+{
+    $options = get_option('label-old-posts-plugin_options');
+    echo "<textarea name='label-old-posts-plugin_options[label-old-posts-plugin_option_message]' rows='3' cols='80'>" . \esc_html($options['label-old-posts-plugin_option_message']) . "</textarea>";
 }
 
 /**
@@ -115,6 +127,9 @@ function plugin_options_validate($input)
         $clean['label-old-posts-plugin_option_date'] = $dateString;
     }
 
+    // no real validation here for flexibility
+    $clean['label-old-posts-plugin_option_message'] = trim($input['label-old-posts-plugin_option_message']);
+
     return $clean;
 }
 
@@ -123,7 +138,22 @@ function plugin_options_validate($input)
  */
 function insert_label()
 {
-    echo '<div class="label-old-posts-label">This post is old.</div>';
+    global $post;
+
+    $options = get_option('label-old-posts-plugin_options');
+
+    // this would only happen if they installed the code before activating the plugin and it was a race condition?
+    if (!$options) {
+        return;
+    }
+
+    $postDate = strtotime($post->post_date);
+    $compareDate = strtotime($options['label-old-posts-plugin_option_date']);
+    $message = $options['label-old-posts-plugin_option_message'];
+
+    if ($postDate <= $compareDate && $message) {
+        echo '<div class="label-old-posts-label">' . $message  . '</div>';
+    }
 }
 
 /** register the installation hook **/
