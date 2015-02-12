@@ -2,7 +2,7 @@
 Contributors: AaronSaray
 Tags: posts, legacy
 Requires at least: 3.0.1
-Tested up to: 4.0
+Tested up to: 4.1
 Stable tag: trunk
 License: MIT
 
@@ -30,3 +30,6 @@ Yup.  Check the plugin settings.
 
 Yup.  You can even use HTML.
 
+== Screenshots ==
+
+1. The plugin will label your older posts with a customized message.

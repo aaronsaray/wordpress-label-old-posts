@@ -15,11 +15,6 @@
 Namespace AaronSaray\LabelOldPosts;
 
 /**
- * Constant for plugin options
- */
-define(__NAMESPACE__ . '\OPTIONS_FIELD', 'label-old-posts-plugin_options');
-
-/**
  * When the plugin is installed, set the options
  */
 function install()
@@ -43,7 +38,7 @@ function remove()
  */
 function admin_menu()
 {
-    add_options_page('Label Old Posts', 'Label Old Posts', 'manage_options', 'label-old-posts', __NAMESPACE__ . '\\options_page');
+    add_options_page('Label Old Posts', 'Label Old Posts', 'manage_options', 'label-old-posts', 'AaronSaray\\LabelOldPosts\\options_page');
 }
 
 /**
@@ -55,7 +50,7 @@ function options_page()
     echo '<p>The following settings govern the functionality of the Label Old Posts plugin.</p>';
     echo '<form action="options.php" method="post">';
 
-    \settings_fields(\AaronSaray\LabelOldPosts\OPTIONS_FIELD);
+    \settings_fields('label-old-posts-plugin_options');
     \do_settings_sections('label-old-posts');
 
     echo '<input name="Submit" type="submit" value="';
@@ -66,9 +61,7 @@ function options_page()
     echo '<hr>';
     echo '<h3>How To Use This Plugin</h3>';
     echo '<p>Insert the following PHP in your theme file that is used for posts.  This may be called content.php</p>';
-    echo "<pre><code>if (function_exists('\\AaronSaray\\LabelOldPosts\\insert_label')) {
-	\AaronSaray\LabelOldPosts\insert_label();
-}</code></pre>";
+    echo "<pre><code>do_action('label-old-posts');</code></pre>";
     echo '<p>The message will be included in a div with the class of <strong>label-old-posts-label</strong>.  Target it with this CSS selector:</p>';
     echo '<pre><code>.label-old-posts-label</code></pre>';
 
@@ -80,10 +73,10 @@ function options_page()
  */
 function admin_init()
 {
-    register_setting(\AaronSaray\LabelOldPosts\OPTIONS_FIELD, 'label-old-posts-plugin_options', __NAMESPACE__ . '\\plugin_options_validate');
-    add_settings_section('label-old-posts-plugin_main', 'Date Settings', __NAMESPACE__ . '\\plugin_options_main_section_text', 'label-old-posts');
-    add_settings_field('label-old-posts-plugin_option_date', 'Posts older than:', __NAMESPACE__ . '\\plugin_options_date', 'label-old-posts', 'label-old-posts-plugin_main');
-    add_settings_field('label-old-posts-plugin_option_message', 'Old post alert:', __NAMESPACE__ . '\\plugin_options_message', 'label-old-posts', 'label-old-posts-plugin_main');
+    register_setting('label-old-posts-plugin_options', 'label-old-posts-plugin_options', 'AaronSaray\\LabelOldPosts\\plugin_options_validate');
+    add_settings_section('label-old-posts-plugin_main', 'Date Settings', 'AaronSaray\\LabelOldPosts\\plugin_options_main_section_text', 'label-old-posts');
+    add_settings_field('label-old-posts-plugin_option_date', 'Posts older than:', 'AaronSaray\\LabelOldPosts\\plugin_options_date', 'label-old-posts', 'label-old-posts-plugin_main');
+    add_settings_field('label-old-posts-plugin_option_message', 'Old post alert:', 'AaronSaray\\LabelOldPosts\\plugin_options_message', 'label-old-posts', 'label-old-posts-plugin_main');
 }
 
 /**
@@ -157,16 +150,16 @@ function insert_label()
 }
 
 /** register the installation hook **/
-register_activation_hook(__FILE__, __NAMESPACE__ . '\\install');
+register_activation_hook(__FILE__, 'AaronSaray\\LabelOldPosts\\install');
 
 /** register uninstall hook **/
-register_deactivation_hook(__FILE__, __NAMESPACE__ . '\\remove');
+register_deactivation_hook(__FILE__, 'AaronSaray\\LabelOldPosts\\remove');
 
 /** register the admin menu **/
-add_action('admin_menu', __NAMESPACE__ . '\\admin_menu');
+add_action('admin_menu', 'AaronSaray\\LabelOldPosts\\admin_menu');
 
 /** register admin settings function **/
-add_action('admin_init', __NAMESPACE__ . '\\admin_init');
+add_action('admin_init', 'AaronSaray\\LabelOldPosts\\admin_init');
 
 /** register the old label post **/
-add_action('label-old-posts', __NAMESPACE__ . '\\insert_label');
+add_action('label-old-posts', 'AaronSaray\\LabelOldPosts\\insert_label');
