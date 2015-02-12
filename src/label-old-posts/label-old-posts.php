@@ -25,8 +25,8 @@ define(__NAMESPACE__ . '\OPTIONS_FIELD', 'label-old-posts-plugin_options');
 function install()
 {
     \add_option('label-old-posts-plugin_options', array(
-        'label-old-posts-plugin_option_date'=>'-2 years',
-        'label-old-posts-plugin_option_message'=>'This is an older post.  Please note that the information may not be accurate anymore.'
+        'date'=>'-2 years',
+        'message'=>'This is an older post.  Please note that the information may not be accurate anymore.'
     ));
 }
 
@@ -102,7 +102,7 @@ function plugin_options_main_section_text()
 function plugin_options_date()
 {
     $options = get_option('label-old-posts-plugin_options');
-    echo "<input name='label-old-posts-plugin_options[label-old-posts-plugin_option_date]' type='text' value='{$options['label-old-posts-plugin_option_date']}' />";
+    echo "<input name='label-old-posts-plugin_options[date]' type='text' value='{$options['date']}' />";
 }
 
 /**
@@ -111,7 +111,7 @@ function plugin_options_date()
 function plugin_options_message()
 {
     $options = get_option('label-old-posts-plugin_options');
-    echo "<textarea name='label-old-posts-plugin_options[label-old-posts-plugin_option_message]' rows='3' cols='80'>" . \esc_html($options['label-old-posts-plugin_option_message']) . "</textarea>";
+    echo "<textarea name='label-old-posts-plugin_options[message]' rows='3' cols='80'>" . \esc_html($options['message']) . "</textarea>";
 }
 
 /**
@@ -121,14 +121,14 @@ function plugin_options_validate($input)
 {
     $clean = array();
 
-    $dateString = trim($input['label-old-posts-plugin_option_date']);
+    $dateString = trim($input['date']);
     $parsed = strtotime($dateString); // will return false on parsing fail
     if ($parsed) {
-        $clean['label-old-posts-plugin_option_date'] = $dateString;
+        $clean['date'] = $dateString;
     }
 
     // no real validation here for flexibility
-    $clean['label-old-posts-plugin_option_message'] = trim($input['label-old-posts-plugin_option_message']);
+    $clean['message'] = trim($input['message']);
 
     return $clean;
 }
@@ -148,8 +148,8 @@ function insert_label()
     }
 
     $postDate = strtotime($post->post_date);
-    $compareDate = strtotime($options['label-old-posts-plugin_option_date']);
-    $message = $options['label-old-posts-plugin_option_message'];
+    $compareDate = strtotime($options['date']);
+    $message = $options['message'];
 
     if ($postDate <= $compareDate && $message) {
         echo '<div class="label-old-posts-label">' . $message  . '</div>';
