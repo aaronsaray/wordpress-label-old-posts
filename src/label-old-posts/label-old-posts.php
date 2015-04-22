@@ -53,9 +53,7 @@ function options_page()
     \settings_fields('label-old-posts-plugin_options');
     \do_settings_sections('label-old-posts');
 
-    echo '<input name="Submit" type="submit" value="';
-    esc_attr_e('Save Changes');
-    echo '">';
+    echo '<input name="Submit" type="submit" value="Save Changes">';
 
     echo '</form>';
     echo '<hr>';

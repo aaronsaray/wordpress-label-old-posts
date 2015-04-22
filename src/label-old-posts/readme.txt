@@ -2,7 +2,7 @@
 Contributors: AaronSaray
 Tags: posts, legacy
 Requires at least: 3.0.1
-Tested up to: 4.1
+Tested up to: 4.2
 Stable tag: trunk
 License: MIT
 
