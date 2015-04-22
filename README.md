@@ -16,3 +16,7 @@ The message will be included in a div with the class of *label-old-posts-label*.
 ~~~~
 .label-old-posts-label
 ~~~~
+
+## How to Install
+
+Download dist/label-old-posts.php and upload to your plugin directory - or visit <https://wordpress.org/plugins/label-old-posts/> to see the official distribution.
